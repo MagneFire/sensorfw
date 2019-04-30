@@ -22,7 +22,8 @@ SOURCES += sensormanagerinterface.cpp \
     humiditysensor_i.cpp \
     pressuresensor_i.cpp \
     temperaturesensor_i.cpp \
-    stepcountersensor_i.cpp
+    stepcountersensor_i.cpp \
+    hrmsensor_i.cpp
 
 HEADERS += sensormanagerinterface.h \
     sensormanager_i.h \
@@ -41,7 +42,8 @@ HEADERS += sensormanagerinterface.h \
     humiditysensor_i.h \
     pressuresensor_i.h \
     temperaturesensor_i.h \
-    stepcountersensor_i.h
+    stepcountersensor_i.h \
+    hrmsensor_i.h
 
 SENSORFW_INCLUDEPATHS = .. \
     ../include \

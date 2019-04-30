@@ -25,7 +25,9 @@ HEADERS += xyz.h \
     touchdata.h \
     proximity.h \
     lid.h \
-    liddata.h
+    liddata.h \
+    heartratedata.h \
+    heartrate.h
 
 SOURCES += xyz.cpp \
     orientation.cpp \
@@ -33,7 +35,8 @@ SOURCES += xyz.cpp \
     compass.cpp \
     utils.cpp \
     tap.cpp \
-    lid.cpp
+    lid.cpp \
+    heartrate.cpp
 
 include(../common-install.pri)
 publicheaders.path  = $${publicheaders.path}/datatypes
