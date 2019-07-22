@@ -111,7 +111,7 @@ Q_SIGNALS:
      *
      * @param value bpm reading.
      */
-    void HrmChanged(const HeartRate& value);
+    void HeartRateChanged(const HeartRate& value);
 };
 
 namespace local {
