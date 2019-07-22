@@ -66,11 +66,11 @@ HrmSensorChannelInterface* HrmSensorChannelInterface::interface(const QString& i
 
 bool HrmSensorChannelInterface::dataReceivedImpl()
 {
-    QVector<HeartRate> values;
-    if(!read<HeartRate>(values))
+    QVector<HeartRateData> values;
+    if(!read<HeartRateData>(values))
         return false;
-    foreach(const HeartRate& data, values)
-        emit HrmChanged(data);
+    foreach(const HeartRateData& data, values)
+        emit HeartRateChanged(data);
     return true;
 }
 
