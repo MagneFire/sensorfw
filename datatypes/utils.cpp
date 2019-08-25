@@ -39,6 +39,7 @@
 #include "tap.h"
 #include "posedata.h"
 #include "proximity.h"
+#include "heartrate.h"
 
 void __attribute__ ((constructor)) datatypes_init(void)
 {
@@ -55,6 +56,8 @@ void __attribute__ ((constructor)) datatypes_init(void)
     qRegisterMetaType<TimedUnsigned>();
     qRegisterMetaType<PoseData>();
     qRegisterMetaType<Proximity>();
+    qRegisterMetaType<HeartRate>();
+    qDBusRegisterMetaType<HeartRate>();
 }
 
 void __attribute__ ((destructor)) datatypes_fini(void)
