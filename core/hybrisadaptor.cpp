@@ -152,6 +152,16 @@ void HybrisManager::init()
 
     sensorsCount = module->get_sensors_list(module, &sensorList);
 
+    if (device) {
+        sensordLogW() << Q_FUNC_INFO
+            << "Deactivating all sensors";
+        for (int i=0 ; i < sensorsCount ; i++) {
+            device->activate(
+                    reinterpret_cast<struct sensors_poll_device_t *>(device),
+                    sensorList[i].handle, 0);
+        }
+    }
+
     for (int i = 0 ; i < sensorsCount ; i++) {
         bool use = true;
         // Assumption: The primary sensor variants that we want to
@@ -225,7 +235,7 @@ bool HybrisManager::setDelay(int sensorHandle, int interval)
 {
     bool ok = true;
     if (interval > 0) {
-        int result = device->setDelay(device, sensorHandle, interval);
+        int result = device->setDelay(reinterpret_cast<struct sensors_poll_device_t *>(device), sensorHandle, interval);
         if (result < 0) {
             sensordLogW() << "setDelay() failed" << strerror(-result);
             ok = false;
@@ -246,7 +256,7 @@ void HybrisManager::startReader(HybrisAdaptor *adaptor)
 {
     if (registeredAdaptors.values().contains(adaptor)) {
         sensordLogD() << "activating " << adaptor->name() << adaptor->sensorHandle;
-        int error = device->activate(device, adaptor->sensorHandle, 1);
+        int error = device->activate(reinterpret_cast<struct sensors_poll_device_t *>(device), adaptor->sensorHandle, 1);
         if (error != 0) {
             sensordLogW() <<Q_FUNC_INFO<< "failed for"<< strerror(-error);
             adaptor->setValid(false);
@@ -263,7 +273,7 @@ void HybrisManager::stopReader(HybrisAdaptor *adaptor)
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i) == adaptor && !list.at(i)->isRunning()) {
             sensordLogD() << "deactivating " << adaptor->name();
-            int error = device->activate(device, adaptor->sensorHandle, 0);
+            int error = device->activate(reinterpret_cast<struct sensors_poll_device_t *>(device), adaptor->sensorHandle, 0);
             if (error != 0) {
                 sensordLogW() <<Q_FUNC_INFO<< "failed for"<< strerror(-error);
             }
@@ -283,7 +293,7 @@ bool HybrisManager::resumeReader(HybrisAdaptor *adaptor)
 
     if (!adaptor->isRunning()) {
         sensordLogD() << "activating for resume" << adaptor->name();
-        int error = device->activate(device, adaptor->sensorHandle, 1);
+        int error = device->activate(reinterpret_cast<struct sensors_poll_device_t *>(device), adaptor->sensorHandle, 1);
         if (error != 0) {
             sensordLogW() <<Q_FUNC_INFO<< "failed for"<< strerror(-error);
         }
@@ -299,7 +309,7 @@ void HybrisManager::standbyReader(HybrisAdaptor *adaptor)
 
     if (adaptor->isRunning() && !adaptor->deviceStandbyOverride()) {
         sensordLogD() << "deactivating for standby" << adaptor->name();
-        int error = device->activate(device, adaptor->sensorHandle, 0);
+        int error = device->activate(reinterpret_cast<struct sensors_poll_device_t *>(device), adaptor->sensorHandle, 0);
         if (error != 0) {
             sensordLogW() <<Q_FUNC_INFO<< "failed for"<< strerror(-error);
         }
@@ -310,7 +320,7 @@ bool HybrisManager::openSensors()
 {
     if (!device) {
         sensordLogD() << "Calling sensors_open";
-        int errorCode = sensors_open(&module->common, &device);
+        int errorCode = sensors_open_1(&module->common, &device);
         if (errorCode != 0) {
             sensordLogW() << "sensors_open() failed:" << strerror(-errorCode);
             device = NULL;
@@ -331,7 +341,7 @@ bool HybrisManager::closeSensors()
         }
 
         sensordLogD() << "Calling sensors_close";
-        int errorCode = sensors_close(device);
+        int errorCode = sensors_close_1(device);
         if (errorCode != 0) {
             sensordLogW() << "sensors_close() failed:" << strerror(-errorCode);
         }
@@ -666,7 +676,7 @@ void *HybrisManager::adaptorReaderThread(void *aptr)
     for( ;; ) {
         /* Async cancellation point at android hal poll() */
         pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, 0);
-        int numberOfEvents = manager->device->poll(manager->device, buffer, numEvents);
+        int numberOfEvents = manager->device->poll(reinterpret_cast<struct sensors_poll_device_t *>(manager->device), buffer, numEvents);
         pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, 0);
         /* Rate limit in poll() error situations */
         if (numberOfEvents < 0) {

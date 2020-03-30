@@ -67,7 +67,7 @@ protected:
     void closeAllSensors();
 
     // fields
-    struct sensors_poll_device_t* device;
+    sensors_poll_device_1_t* device;
     struct sensor_t const* sensorList;
     struct sensors_module_t* module;
     int sensorsCount;
