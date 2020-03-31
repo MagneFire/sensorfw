@@ -37,7 +37,7 @@ HybrisHrmAdaptor::HybrisHrmAdaptor(const QString& id) :
     buffer = new DeviceAdaptorRingBuffer<HeartRateData>(1);
     setAdaptedSensor("hrm", "Heart rate monitor", buffer);
     setDescription("Hybris heart rate monitor");
-    powerStatePath = Config::configuration()->value("heartrate/powerstate_path").toByteArray();
+    powerStatePath = SensorFrameworkConfig::configuration()->value("heartrate/powerstate_path").toByteArray();
     if (!powerStatePath.isEmpty() && !QFile::exists(powerStatePath))
     {
     	sensordLogW() << "Path does not exists: " << powerStatePath;
