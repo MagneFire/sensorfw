@@ -39,7 +39,7 @@ HybrisWristGestureAdaptor::HybrisWristGestureAdaptor(const QString& id) :
     setAdaptedSensor("hybriswristgesture", "Internal wristgesture coordinates", buffer);
 
     setDescription("Hybris wristgesture");
-    powerStatePath = Config::configuration()->value("wristgesture/powerstate_path").toByteArray();
+    powerStatePath = SensorFrameworkConfig::configuration()->value("wristgesture/powerstate_path").toByteArray();
     if (!powerStatePath.isEmpty() && !QFile::exists(powerStatePath))
     {
     	sensordLogW() << "Path does not exists: " << powerStatePath;
