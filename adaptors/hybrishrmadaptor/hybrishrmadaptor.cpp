@@ -52,11 +52,10 @@ HybrisHrmAdaptor::~HybrisHrmAdaptor()
 
 bool HybrisHrmAdaptor::startSensor()
 {
-    if(!powerStatePath.isEmpty())
-        writeToFile(powerStatePath, "1");
     if (!(HybrisAdaptor::startSensor()))
         return false;
-
+    if (isRunning() && !powerStatePath.isEmpty())
+        writeToFile(powerStatePath, "1");
     sensordLogD() << "Hybris HybrisHrmAdaptor start\n";
     return true;
 }
@@ -68,9 +67,9 @@ void HybrisHrmAdaptor::sendInitialData()
 
 void HybrisHrmAdaptor::stopSensor()
 {
-    if(!powerStatePath.isEmpty())
-        writeToFile(powerStatePath, "0");
     HybrisAdaptor::stopSensor();
+    if (!isRunning() && !powerStatePath.isEmpty())
+        writeToFile(powerStatePath, "0");
     sensordLogD() << "Hybris HybrisHrmAdaptor stop\n";
 }
 
