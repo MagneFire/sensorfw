@@ -54,20 +54,19 @@ HybrisWristGestureAdaptor::~HybrisWristGestureAdaptor()
 
 bool HybrisWristGestureAdaptor::startSensor()
 {
-    if(!powerStatePath.isEmpty())
-        writeToFile(powerStatePath, "1");
     if (!(HybrisAdaptor::startSensor()))
         return false;
-
+    if (isRunning() && !powerStatePath.isEmpty())
+        writeToFile(powerStatePath, "1");
     sensordLogD() << "Hybris WristGestureAdaptor start\n";
     return true;
 }
 
 void HybrisWristGestureAdaptor::stopSensor()
 {
-    if(!powerStatePath.isEmpty())
-        writeToFile(powerStatePath, "0");
     HybrisAdaptor::stopSensor();
+     if (!isRunning() && !powerStatePath.isEmpty())
+        writeToFile(powerStatePath, "0");
     sensordLogD() << "Hybris WristGestureAdaptor stop\n";
 }
 
