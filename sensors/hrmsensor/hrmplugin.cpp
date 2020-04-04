@@ -47,7 +47,3 @@ void HrmPlugin::Init(class Loader& l)
 QStringList HrmPlugin::Dependencies() {
     return QString("hrmadaptor").split(":", QString::SkipEmptyParts);
 }
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-Q_EXPORT_PLUGIN2(hrmsensor, HrmPlugin)
-#endif

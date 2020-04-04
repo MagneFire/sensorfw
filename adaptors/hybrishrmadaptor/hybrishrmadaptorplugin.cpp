@@ -33,6 +33,3 @@ void HybrisHrmAdaptorPlugin::Register(class Loader&)
     sm.registerDeviceAdaptor<HybrisHrmAdaptor>("hrmadaptor");
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-Q_EXPORT_PLUGIN2(hybrishrmadaptor, HybrisHrmAdaptorPlugin)
-#endif
