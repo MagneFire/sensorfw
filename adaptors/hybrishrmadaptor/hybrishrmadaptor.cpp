@@ -43,6 +43,8 @@ HybrisHrmAdaptor::HybrisHrmAdaptor(const QString& id) :
     	sensordLogW() << "Path does not exists: " << powerStatePath;
     	powerStatePath.clear();
     }
+    // Set default delay.
+    setInterval(200, 0);
 }
 
 HybrisHrmAdaptor::~HybrisHrmAdaptor()
