@@ -54,6 +54,20 @@ SUBDIRS += steaccelerometeradaptor
 SUBDIRS += mpu6050accelerometer
 }
 
+config_hybris {
+    SUBDIRS = hybrisaccelerometer
+    SUBDIRS += hybrisalsadaptor
+    SUBDIRS += hybrisgyroscopeadaptor
+    SUBDIRS += hybrismagnetometeradaptor
+    SUBDIRS += hybrispressureadaptor
+    SUBDIRS += hybrisproximityadaptor
+    SUBDIRS += hybrisorientationadaptor
+    SUBDIRS += hybrisrotationadaptor
+    SUBDIRS += hybrisgeorotationadaptor
+    SUBDIRS += hybrisstepcounteradaptor
+    SUBDIRS += hybrishrmadaptor
+    SUBDIRS += hybriswristgestureadaptor
+}
 }
 
 
